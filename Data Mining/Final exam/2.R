@@ -1,0 +1,12 @@
+setwd("D:\\Msit\\Data-Science\\Data Mining\\Final exam")
+data = read.csv("Apriori_Data.csv", header = TRUE)
+str(data)
+data$TID <- NULL
+install.packages("arules")
+write.csv(data, "FreqItem.csv", quote = FALSE, row.names = TRUE)
+library("arules")
+transaction <- read.transactions("FreqItem.csv", sep=',', rm.duplicates = TRUE)
+inspect(transaction)
+frequent_itemsets <- apriori(transaction, parameter = list(sup = 0.03, conf = 0.5,target="frequent itemsets"))
+inspect(sort(frequent_itemsets)[1:15])
+itemFrequencyPlot(transaction, topN = 5)
